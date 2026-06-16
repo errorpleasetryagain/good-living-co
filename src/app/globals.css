@@ -1,56 +1,51 @@
 @import "tailwindcss";
 
 /* 
- * Good Living Co Design Tokens
- * Premium minimalist — matches Adam's portfolio aesthetic
+ * Good Living Co — Redesign (Dark Premium)
+ * Vibe: Raycast meets Linear meets React Bits energy
+ * Palette: Deep obsidian + electric amber
  */
 
 :root {
-  /* Backgrounds */
-  --background: #F7F6F3;
-  --surface: #FFFFFF;
+  /* Backgrounds — Deep obsidian with subtle blue tint */
+  --background: #050505;
+  --background-elevated: #0a0a0a;
+  --surface: #111111;
+  --surface-highlight: #1a1a1a;
   
   /* Text */
-  --foreground: #111111;
-  --foreground-muted: #787774;
+  --foreground: #ffffff;
+  --foreground-muted: #a1a1aa;
+  --foreground-dim: #71717a;
   
-  /* Structural */
-  --border: #EAEAEA;
-  --border-light: rgba(0, 0, 0, 0.06);
+  /* Accent — Electric Amber */
+  --accent: #F59E0B;
+  --accent-glow: rgba(245, 158, 11, 0.15);
+  --accent-gradient: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
   
-  /* Accents (desaturated pastels for tags/badges only) */
-  --accent-blue-bg: #E1F3FE;
-  --accent-blue-text: #1F6C9F;
-  --accent-green-bg: #EDF3EC;
-  --accent-green-text: #346538;
-  --accent-red-bg: #FDEBEC;
-  --accent-red-text: #9F2F2D;
-  --accent-yellow-bg: #FBF3DB;
-  --accent-yellow-text: #956400;
+  /* Borders */
+  --border: rgba(255, 255, 255, 0.08);
+  --border-highlight: rgba(255, 255, 255, 0.15);
+  --border-accent: rgba(245, 158, 11, 0.3);
+  
+  /* Shadows — Multi-layer for depth */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 40px rgba(245, 158, 11, 0.1);
   
   /* Typography */
-  --font-sans: 'Geist', 'SF Pro Display', 'Helvetica Neue', system-ui, sans-serif;
-  --font-serif: 'Lyon Text', 'Playfair Display', 'Georgia', serif;
-  --font-mono: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
+  --font-sans: 'Geist', 'SF Pro Display', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', 'SF Mono', monospace;
   
-  /* Spacing */
-  --container-max: 1000px;
+  /* Container */
+  --container-max: 1100px;
   
   /* Motion */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --transition-fast: 200ms var(--ease-out-expo);
-  --transition-slow: 600ms var(--ease-out-expo);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --surface: #111111;
-    --foreground: #f0f0f0;
-    --foreground-muted: #888888;
-    --border: #222222;
-    --border-light: rgba(255, 255, 255, 0.08);
-  }
+  --transition-slow: 800ms var(--ease-out-expo);
 }
 
 @theme inline {
@@ -59,16 +54,13 @@
   --color-foreground: var(--foreground);
   --color-foreground-muted: var(--foreground-muted);
   --color-border: var(--border);
-  --color-border-light: var(--border-light);
+  --color-accent: var(--accent);
   
   --font-sans: var(--font-sans);
-  --font-serif: var(--font-serif);
   --font-mono: var(--font-mono);
-  
-  --ease-out-expo: var(--ease-out-expo);
 }
 
-/* Base styles */
+/* Base */
 body {
   background: var(--background);
   color: var(--foreground);
@@ -76,12 +68,77 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-/* Scroll entry animation utility */
+/* Gradient Aurora Background */
+.aurora-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: 
+    radial-gradient(circle at 15% 50%, rgba(245, 158, 11, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(245, 158, 11, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 50% 80%, rgba(245, 158, 11, 0.05) 0%, transparent 50%);
+  filter: blur(60px);
+  animation: auroraPulse 8s ease-in-out infinite;
+}
+
+@keyframes auroraPulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.1); }
+}
+
+/* Double-Bezel Card Architecture */
+.card-bezel {
+  position: relative;
+  padding: 2px;
+  border-radius: 1.5rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
+}
+
+.card-bezel-inner {
+  background: var(--surface);
+  border-radius: calc(1.5rem - 2px);
+  padding: 2rem;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-bezel-inner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Magnetic Button */
+.btn-magnetic {
+  transition: transform var(--transition-fast);
+}
+
+.btn-magnetic:hover {
+  transform: scale(1.02);
+}
+
+.btn-magnetic:active {
+  transform: scale(0.98);
+}
+
+/* Text Gradient */
+.text-gradient {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Scroll Reveal */
 .scroll-reveal {
   opacity: 0;
-  transform: translateY(12px);
+  transform: translateY(24px);
   animation: scrollReveal var(--transition-slow) forwards;
 }
 
@@ -92,20 +149,38 @@ body {
   }
 }
 
-/* Staggered reveal for lists/grids */
+/* Staggered Grid */
 .stagger-item {
   opacity: 0;
-  transform: translateY(12px);
+  transform: translateY(16px);
   animation: scrollReveal var(--transition-slow) forwards;
 }
 
 .stagger-item:nth-child(1) { animation-delay: 0ms; }
-.stagger-item:nth-child(2) { animation-delay: 80ms; }
-.stagger-item:nth-child(3) { animation-delay: 160ms; }
-.stagger-item:nth-child(4) { animation-delay: 240ms; }
-.stagger-item:nth-child(5) { animation-delay: 320ms; }
-.stagger-item:nth-child(6) { animation-delay: 400ms; }
-.stagger-item:nth-child(7) { animation-delay: 480ms; }
-.stagger-item:nth-child(8) { animation-delay: 560ms; }
-.stagger-item:nth-child(9) { animation-delay: 640ms; }
-.stagger-item:nth-child(10) { animation-delay: 720ms; }
+.stagger-item:nth-child(2) { animation-delay: 100ms; }
+.stagger-item:nth-child(3) { animation-delay: 200ms; }
+.stagger-item:nth-child(4) { animation-delay: 300ms; }
+.stagger-item:nth-child(5) { animation-delay: 400ms; }
+.stagger-item:nth-child(6) { animation-delay: 500ms; }
+
+/* Glow Border on Hover */
+.glow-border {
+  position: relative;
+  transition: border-color var(--transition-fast);
+}
+
+.glow-border::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: var(--accent-gradient);
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  filter: blur(8px);
+}
+
+.glow-border:hover::after {
+  opacity: 0.5;
+}
