@@ -1,197 +1,119 @@
 'use client';
 
 import Link from 'next/link';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { motion } from 'framer-motion';
 
 const portfolioSites = [
   {
     name: 'MaleOptimal',
-    description: "Men's health optimization guides and evidence-based wellness content",
-    metrics: '156+ articles',
-    href: 'https://maleoptimal.co.uk',
+    url: 'https://maleoptimal.co.uk',
+    description: 'Men\'s health and optimisation — evidence-based guides on TRT, nutrition, training, and longevity.',
+    accent: '#2E5F4C',
     category: 'Health',
-    color: 'from-amber-400 to-orange-500',
   },
   {
     name: 'GLP1Guide',
-    description: 'UK GLP-1 medication calculators and weight loss guidance',
-    metrics: 'Calculators & Guides',
-    href: 'https://glp1guide.co.uk',
+    url: 'https://glp1guide.co.uk',
+    description: 'GLP-1 medication calculators and guides — semaglutide, tirzepatide dosing, cost comparisons.',
+    accent: '#3B5998',
     category: 'Health',
-    color: 'from-emerald-400 to-teal-500',
   },
   {
     name: 'FuelOptimal',
-    description: 'Nutrition guides, meal plans, and evidence-based dietary advice',
-    metrics: 'Nutrition Hub',
-    href: 'https://fueloptimal.co.uk',
+    url: 'https://fueloptimal.co.uk',
+    description: 'Nutrition and performance — meal plans, supplement guides, athletic nutrition.',
+    accent: '#D97706',
     category: 'Nutrition',
-    color: 'from-blue-400 to-indigo-500',
   },
   {
     name: 'TradePick',
-    description: 'Trading tools, market analysis, and investment resources',
-    metrics: 'Tools & Analysis',
-    href: 'https://tradepick.co.uk',
-    category: 'Finance',
-    color: 'from-purple-400 to-pink-500',
+    url: 'https://tradepick.co.uk',
+    description: 'Tools and trades — equipment reviews, trade skills, career guides for skilled workers.',
+    accent: '#DC2626',
+    category: 'Trade',
   },
   {
-    name: 'HomeOptimal',
-    description: 'Home improvement, organization, and lifestyle optimization',
-    metrics: 'Home Guides',
-    href: 'https://homeoptimal.co.uk',
-    category: 'Lifestyle',
-    color: 'from-rose-400 to-red-500',
+    name: 'RemotePivot',
+    url: 'https://remotepivot.co.uk',
+    description: 'Remote work — career transitions, productivity, tools for distributed teams.',
+    accent: '#7C3AED',
+    category: 'Career',
   },
   {
-    name: 'TechOptimal',
-    description: 'Tech reviews, productivity tools, and digital lifestyle guides',
-    metrics: 'Tech Reviews',
-    href: 'https://techoptimal.co.uk',
+    name: 'AIByRole',
+    url: 'https://aibyrole.co.uk',
+    description: 'AI tools by job role — practical AI guides for specific professions and industries.',
+    accent: '#0891B2',
     category: 'Technology',
-    color: 'from-cyan-400 to-blue-500',
   },
 ];
 
-function AuroraBackground() {
-  return (
-    <div className="aurora-bg" />
-  );
-}
-
-function FloatingOrb({ delay, x, y, scale }: { delay: number; x: string; y: string; scale: string }) {
-  return (
-    <motion.div
-      className="absolute rounded-full blur-3xl"
-      style={{
-        left: x,
-        top: y,
-        width: scale,
-        height: scale,
-        background: 'radial-gradient(circle, rgba(245, 158, 11, 0.3) 0%, transparent 70%)',
-      }}
-      animate={{
-        scale: [1, 1.2, 1],
-        opacity: [0.3, 0.5, 0.3],
-        x: [0, 30, 0],
-        y: [0, -20, 0],
-      }}
-      transition={{
-        duration: 8,
-        delay,
-        repeat: Infinity,
-        ease: 'easeInOut',
-      }}
-    />
-  );
-}
+const stats = [
+  { value: '200+', label: 'Articles published' },
+  { value: '2M+', label: 'Readers reached' },
+  { value: '6', label: 'Content sites' },
+  { value: '8+', label: 'Revenue streams' },
+];
 
 export default function Home() {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollY } = useScroll();
-  const heroOpacity = useTransform(scrollY, [0, 300], [1, 0]);
-  const heroScale = useTransform(scrollY, [0, 300], [1, 0.95]);
-
   return (
-    <div className="relative min-h-screen">
-      <AuroraBackground />
-      
-      {/* Hero Section */}
-      <section ref={heroRef} className="relative px-6 py-32 md:py-48 overflow-hidden">
-        {/* Floating Orbs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <FloatingOrb delay={0} x="10%" y="20%" scale="300px" />
-          <FloatingOrb delay={2} x="70%" y="10%" scale="250px" />
-          <FloatingOrb delay={4} x="50%" y="60%" scale="350px" />
-        </div>
-
+    <main className="min-h-screen">
+      {/* Hero Section — Editorial style, not generic gradient */}
+      <section className="py-20 md:py-32 px-6 md:px-12 max-w-7xl mx-auto">
         <motion.div
-          style={{ opacity: heroOpacity, scale: heroScale }}
-          className="relative mx-auto max-w-[var(--container-max)]"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="max-w-4xl"
         >
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-4xl"
-          >
-            {/* Eyebrow Badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-4 py-2 mb-8"
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
-              </span>
-              <span className="text-xs font-medium text-[var(--foreground-muted)] uppercase tracking-wider">
-                Building Digital Empires
-              </span>
-            </motion.div>
-
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-medium tracking-tighter leading-[1.05]">
-              <span className="text-[var(--foreground)]">Content businesses that</span>
-              <br />
-              <span className="text-gradient">help people live better</span>
-            </h1>
-
-            <p className="mt-8 text-lg md:text-xl text-[var(--foreground-muted)] max-w-2xl leading-relaxed">
-              Good Living Co builds premium, evidence-based content sites across health, nutrition, finance, and lifestyle — reaching millions of readers seeking to optimize their lives.
-            </p>
-
-            {/* CTA Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="mt-12 flex flex-wrap gap-4"
-            >
-              <Link
-                href="/portfolio"
-                className="btn-magnetic inline-flex items-center gap-3 rounded-full bg-[var(--foreground)] px-8 py-4 text-sm font-medium text-[var(--background)] transition-all hover:shadow-glow"
-              >
-                Explore Portfolio
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-              </Link>
-              <Link
-                href="/about"
-                className="btn-magnetic inline-flex items-center gap-3 rounded-full border border-[var(--border)] bg-[var(--surface)] px-8 py-4 text-sm font-medium text-[var(--foreground)] transition-all hover:border-[var(--border-highlight)]"
-              >
-                Our Story
-              </Link>
-            </motion.div>
-          </motion.div>
+          <p className="text-sm font-medium text-[#666655] mb-4 tracking-wide uppercase">
+            Good Living Co
+          </p>
+          <h1 className="text-5xl md:text-7xl font-medium mb-6 leading-tight">
+            Building content businesses that help people live better
+          </h1>
+          <p className="text-xl text-[#666655] max-w-2xl leading-relaxed">
+            We create evidence-based resources in health, nutrition, career, and technology. 
+            No hype. No bro science. Just honest, researched guides that actually work.
+          </p>
+          
+          <div className="flex gap-4 mt-10">
+            <Link href="/portfolio" className="btn btn-primary">
+              View Our Sites
+            </Link>
+            <Link href="/about" className="btn btn-secondary">
+              Our Story
+            </Link>
+          </div>
         </motion.div>
       </section>
 
-      {/* Stats Strip */}
-      <section className="px-6 py-12 border-y border-[var(--border)]">
-        <div className="mx-auto max-w-[var(--container-max)]">
+      {/* Trust Ticker — Editorial credibility */}
+      <section className="border-t border-b border-[#E0DED9] py-4 px-6 md:px-12">
+        <div className="trust-ticker max-w-7xl mx-auto">
+          <span>✓ Evidence-based research</span>
+          <span>✓ 2M+ readers</span>
+          <span>✓ Independent & unbiased</span>
+          <span>✓ Updated weekly</span>
+        </div>
+      </section>
+
+      {/* Stats Section — Simple, flat */}
+      <section className="py-16 px-6 md:px-12 bg-[#F5EFE7]">
+        <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { value: '200+', label: 'Articles Published' },
-              { value: '2M+', label: 'Readers Reached' },
-              { value: '8', label: 'Content Sites' },
-              { value: '6+', label: 'Revenue Streams' },
-            ].map((stat, i) => (
+            {stats.map((stat, index) => (
               <motion.div
                 key={stat.label}
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
                 className="text-center md:text-left"
               >
-                <div className="text-3xl md:text-4xl font-medium text-gradient mb-1">
+                <div className="text-4xl md:text-5xl font-medium text-[#2E5F4C] mb-2">
                   {stat.value}
                 </div>
-                <div className="text-sm text-[var(--foreground-muted)]">
+                <div className="text-[#666655] text-sm uppercase tracking-wide">
                   {stat.label}
                 </div>
               </motion.div>
@@ -200,117 +122,124 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Portfolio Grid */}
-      <section className="px-6 py-24 md:py-32">
-        <div className="mx-auto max-w-[var(--container-max)]">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="mb-12"
-          >
-            <h2 className="text-sm font-medium text-[var(--foreground-muted)] uppercase tracking-wider mb-3">
-              Our Portfolio
-            </h2>
-            <p className="text-3xl md:text-4xl font-medium text-[var(--foreground)] tracking-tight">
-              Sites that serve millions
-            </p>
-          </motion.div>
-          
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {portfolioSites.map((site, index) => (
-              <motion.div
-                key={site.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.08 }}
-                viewport={{ once: true }}
-                className="stagger-item"
+      {/* Portfolio Grid — Editorial layout, not generic cards */}
+      <section className="py-20 px-6 md:px-12 max-w-7xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="mb-12"
+        >
+          <h2 className="text-4xl md:text-5xl mb-4">Our Portfolio</h2>
+          <p className="text-xl text-[#666655] max-w-3xl">
+            Six content sites, each serving a specific audience with deep, researched guides.
+          </p>
+          <div className="divider mt-8" />
+        </motion.div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {portfolioSites.map((site, index) => (
+            <motion.article
+              key={site.name}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: index * 0.05 }}
+              className="card group cursor-pointer"
+            >
+              <Link href={site.url} className="block">
+                <div className="flex items-center justify-between mb-4">
+                  <span 
+                    className="text-xs font-medium uppercase tracking-wide px-3 py-1 rounded-full"
+                    style={{ 
+                      backgroundColor: `${site.accent}08`,
+                      color: site.accent 
+                    }}
+                  >
+                    {site.category}
+                  </span>
+                  <span className="text-[#666655] group-hover:text-[#2E5F4C] transition-colors">
+                    →
+                  </span>
+                </div>
+                <h3 className="text-2xl mb-3 group-hover:text-[#2E5F4C] transition-colors">
+                  {site.name}
+                </h3>
+                <p className="text-[#666655] leading-relaxed">
+                  {site.description}
+                </p>
+              </Link>
+            </motion.article>
+          ))}
+        </div>
+      </section>
+
+      {/* Mission Section — Editorial, asymmetrical */}
+      <section className="py-20 px-6 md:px-12 bg-[#F5EFE7]">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-4xl md:text-5xl mb-6">Why We Do This</h2>
+              <div className="divider" />
+              <p className="text-lg text-[#666655] leading-relaxed mb-6">
+                Most health and wellness content is either too superficial or pushed by people 
+                selling something. We believe in honest, researched guides that help people 
+                make better decisions.
+              </p>
+              <p className="text-lg text-[#666655] leading-relaxed mb-8">
+                Every article is backed by peer-reviewed research, tested in real life, and 
+                written in plain English. No hype. No fear-mongering. Just useful information.
+              </p>
+              <Link href="/about" className="btn btn-primary">
+                Read Our Story
+              </Link>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="hidden md:block"
+            >
+              {/* Placeholder for founder photo or brand image */}
+              <div 
+                className="w-full h-96 bg-[#EBE4DC] rounded-lg flex items-center justify-center"
+                style={{ 
+                  backgroundImage: 'url(/about-hero.jpg)',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center'
+                }}
               >
-                <Link
-                  href={site.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group card-bezel glow-border block h-full"
-                >
-                  <div className="card-bezel-inner">
-                    {/* Category Badge with Gradient */}
-                    <div className="flex items-start justify-between mb-6">
-                      <span className={`text-xs font-medium px-3 py-1.5 rounded-full bg-gradient-to-r ${site.color} text-white`}>
-                        {site.category}
-                      </span>
-                      <svg
-                        className="w-5 h-5 text-[var(--foreground-muted)] transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                      >
-                        <path d="M7 17L17 7M17 7H7M17 7V17" />
-                      </svg>
-                    </div>
-
-                    {/* Site Name */}
-                    <h3 className="text-2xl font-medium text-[var(--foreground)] mb-3 group-hover:text-gradient transition-all">
-                      {site.name}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="text-[var(--foreground-muted)] mb-6 leading-relaxed">
-                      {site.description}
-                    </p>
-
-                    {/* Metrics */}
-                    <div className="flex items-center gap-2 text-sm">
-                      <span className="inline-flex items-center gap-1.5 text-[var(--foreground-muted)]">
-                        <span className="relative flex h-2 w-2">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
-                        </span>
-                        {site.metrics}
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
+                <span className="text-[#666655] text-sm">
+                  [Founder photo or brand imagery]
+                </span>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="px-6 pb-24 md:pb-32">
-        <div className="mx-auto max-w-[var(--container-max)]">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="card-bezel"
-          >
-            <div className="card-bezel-inner p-8 md:p-12">
-              <div className="max-w-2xl">
-                <h2 className="text-3xl md:text-4xl font-medium text-[var(--foreground)] mb-4 tracking-tight">
-                  Let's build something together
-                </h2>
-                <p className="text-[var(--foreground-muted)] mb-8 text-lg leading-relaxed">
-                  We're always exploring new opportunities to collaborate with brands that align with our mission of helping people live better lives.
-                </p>
-                <Link
-                  href="/contact"
-                  className="btn-magnetic inline-flex items-center gap-3 rounded-full bg-[var(--foreground)] px-8 py-4 text-sm font-medium text-[var(--background)] transition-all hover:shadow-glow"
-                >
-                  Get in touch
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-        </div>
+      {/* CTA Section — Simple, warm */}
+      <section className="py-20 px-6 md:px-12 max-w-7xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center max-w-3xl mx-auto"
+        >
+          <h2 className="text-4xl md:text-5xl mb-6">Partnerships & Press</h2>
+          <p className="text-xl text-[#666655] leading-relaxed mb-8">
+            Interested in collaborating, featuring our work, or advertising across our network? 
+            We'd love to hear from you.
+          </p>
+          <Link href="/contact" className="btn btn-primary">
+            Get in Touch
+          </Link>
+        </motion.div>
       </section>
-    </div>
+    </main>
   );
 }
